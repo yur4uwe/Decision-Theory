@@ -1,9 +1,9 @@
 package main
 
 import (
+	"decision-theory/games"
+	"decision-theory/lab_11/matrix"
 	"fmt"
-	"lab/games"
-	"lab/matrix"
 
 	"github.com/willauld/lpsimplex"
 )

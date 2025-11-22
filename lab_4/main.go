@@ -1,10 +1,10 @@
 package main
 
 import (
+	"decision-theory/graph"
+	"decision-theory/lab_4/randanalysis"
 	"flag"
 	"fmt"
-	"graph"
-	"lab/randanalysis"
 	"math/rand"
 	"slices"
 	"strconv"

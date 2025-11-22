@@ -1,9 +1,9 @@
 package main
 
 import (
+	"decision-theory/lab_5/grading"
 	"flag"
 	"fmt"
-	"lab/grading"
 )
 
 func main() {

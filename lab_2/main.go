@@ -1,7 +1,7 @@
 package main
 
 import (
-	"binrels"
+	"decision-theory/binrels"
 	"flag"
 	"fmt"
 )

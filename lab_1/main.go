@@ -1,10 +1,10 @@
 package main
 
 import (
+	"decision-theory/graph"
+	"decision-theory/lab_1/distributions"
 	"flag"
 	"fmt"
-	"lab/distributions"
-	"lab/graph"
 	"math"
 )
 

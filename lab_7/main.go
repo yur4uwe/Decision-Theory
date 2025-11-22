@@ -1,8 +1,8 @@
 package main
 
 import (
+	"decision-theory/graph"
 	"fmt"
-	"graph"
 	"math"
 	"math/rand"
 	"slices"

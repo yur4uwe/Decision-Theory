@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"lab/games"
+	"decision-theory/games"
 )
 
 func saddlePoint(m [][]int) (bool, int, [][2]int) {
