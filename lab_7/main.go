@@ -175,7 +175,7 @@ func main() {
 	fmt.Printf("Best alternative according to linear convolution: A%d\n", lc_best_idx+1)
 	fmt.Printf("Best alternative according to ideal point: A%d", ip_best_idx+1)
 
-	g := graph.NewGraph()
+	g := graph.NewGraph(800, 400)
 	ls := graph.NewLS()
 	ls.Dots(4)
 

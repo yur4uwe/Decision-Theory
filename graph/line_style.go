@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"fmt"
 	"math"
 
 	"github.com/fogleman/gg"
@@ -98,6 +99,7 @@ func (ls *LineStyle) DrawLine(dc *gg.Context, x, y []float64, originY float64) {
 	}
 
 	if ls.pillars {
+		fmt.Printf("Origin of pillars: %f", originY)
 		for i := 0; i < int(math.Min(float64(len(x)), float64(len(y)))); i++ {
 			dc.NewSubPath()
 			dc.MoveTo(x[i], originY)

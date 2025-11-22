@@ -18,21 +18,38 @@ func (g *Graph) drawAxes(scaleX, scaleY, plotHeight, plotWidth, xOffset, yOffset
 	originX = xOffset + (-g.bounds.minX * scaleX)
 	originY = yOffset + (g.bounds.maxY * scaleY)
 
-	insideYAxis := isInsideAxis(originX, xOffset, xOffset+plotWidth)
-	insideXAxis := isInsideAxis(originY, yOffset, yOffset+plotHeight)
+	isYAxisInside := isAxisInside(originX, xOffset, xOffset+plotWidth)
+	isXAxisInside := isAxisInside(originY, yOffset, yOffset+plotHeight)
 
-	if insideXAxis {
+	if isXAxisInside {
 		g.dc.SetRGB(0.3, 0.3, 0.3)
 		g.dc.SetLineWidth(2)
 		g.dc.DrawLine(xOffset, originY, xOffset+plotWidth, originY)
 		g.dc.Stroke()
 	}
 
-	if insideYAxis {
+	if isYAxisInside {
 		g.dc.SetRGB(0.3, 0.3, 0.3)
 		g.dc.SetLineWidth(2)
 		g.dc.DrawLine(originX, yOffset, originX, yOffset+plotHeight)
 		g.dc.Stroke()
+	}
+
+	actualOriginX := originX
+	if !isXAxisInside {
+		if originX < xOffset {
+			actualOriginX = xOffset
+		} else {
+			actualOriginX = xOffset + plotWidth
+		}
+	}
+	actualOriginY := originY
+	if !isYAxisInside {
+		if originY < yOffset {
+			actualOriginY = yOffset
+		} else {
+			actualOriginY = yOffset + plotHeight
+		}
 	}
 
 	g.dc.SetLineWidth(1)
@@ -61,7 +78,7 @@ func (g *Graph) drawAxes(scaleX, scaleY, plotHeight, plotWidth, xOffset, yOffset
 	lastYLabel := -1000.0
 
 	xTickBaseY := yOffset + plotHeight
-	if insideXAxis {
+	if isXAxisInside {
 		xTickBaseY = originY
 	}
 
@@ -77,7 +94,7 @@ func (g *Graph) drawAxes(scaleX, scaleY, plotHeight, plotWidth, xOffset, yOffset
 		label := fmt.Sprintf("%.2f", i)
 
 		labelY := 0.0
-		if insideXAxis {
+		if isXAxisInside {
 			labelY = xTickBaseY + 14
 		} else {
 			labelY = yOffset + plotHeight + 14
@@ -89,7 +106,7 @@ func (g *Graph) drawAxes(scaleX, scaleY, plotHeight, plotWidth, xOffset, yOffset
 	}
 
 	yTickBaseX := xOffset
-	if insideYAxis {
+	if isYAxisInside {
 		yTickBaseX = originX
 	}
 
@@ -105,7 +122,7 @@ func (g *Graph) drawAxes(scaleX, scaleY, plotHeight, plotWidth, xOffset, yOffset
 		label := fmt.Sprintf("%.2f", i)
 
 		labelX := 0.0
-		if insideYAxis {
+		if isYAxisInside {
 			labelX = yTickBaseX - 12
 		} else {
 			labelX = xOffset - 12
@@ -116,7 +133,7 @@ func (g *Graph) drawAxes(scaleX, scaleY, plotHeight, plotWidth, xOffset, yOffset
 		lastYLabel = yTick
 	}
 
-	return originX, originY
+	return actualOriginX, actualOriginY
 }
 
 func (g *Graph) Draw() error {

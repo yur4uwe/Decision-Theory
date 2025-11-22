@@ -69,174 +69,104 @@ func Print(x, y []float64, expected_mean, expected_variance float64, continious 
 }
 
 func plotBernoulli(p float64) {
-	bernoulli_x := graph.IntLinearArray(0, 1)
+	bernoulli_x := graph.IntLinearArray(0, 2)
 	bernoulli_y := distributions.Bernoulli(p, bernoulli_x)
-
 	bline := graph.NewLS()
-	bline.Pillars()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(bline)
-	g.Plot(bernoulli_x, bernoulli_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/bernoulli.png", true); err != nil {
-		panic(err)
-	}
+	bline.Pillars(10)
 
 	expected_mean := p
 	expected_variance := p * (1 - p)
 	fmt.Println("Bernoulli Distribution (p =", p, ")")
-	Print(bernoulli_x, bernoulli_y, expected_mean, expected_variance, false)
+	draw(bernoulli_x, bernoulli_y, expected_mean, expected_variance, false, bline, "images/bernoulli.png")
 }
 
 func plotBinomial(n int, p float64) {
 	binline := graph.NewLS()
 	binline.Dots()
 	binline.Solid()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(binline)
-
-	binomial_x := graph.IntLinearArray(0, n)
+	binomial_x := graph.IntLinearArray(0, n+1)
 	binomial_y := distributions.Binomial(n, p, binomial_x)
-	g.Plot(binomial_x, binomial_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/binomial.png", true); err != nil {
-		panic(err)
-	}
 
 	expected_mean := float64(n) * p
 	expected_variance := float64(n) * p * (1 - p)
 	fmt.Println("Binomial Distribution (n =", n, ", p =", p, ")")
-	Print(binomial_x, binomial_y, expected_mean, expected_variance, false)
+	draw(binomial_x, binomial_y, expected_mean, expected_variance, false, binline, "images/binomial.png")
 }
 
 func plotPoisson(lambda float64) {
 	pline := graph.NewLS()
 	pline.Dots()
 	pline.Solid()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(pline)
-
 	kmax := int(N + 5)
-	poisson_x := graph.IntLinearArray(0, kmax)
+	poisson_x := graph.IntLinearArray(0, kmax+1)
 	poisson_y := distributions.Poisson(lambda, poisson_x)
-	g.Plot(poisson_x, poisson_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/poisson.png", true); err != nil {
-		panic(err)
-	}
 
 	expected_mean := lambda
 	expected_variance := lambda
 	fmt.Printf("Poisson Distribution (λ = %.2f)\n", lambda)
-	Print(poisson_x, poisson_y, expected_mean, expected_variance, false)
+	draw(poisson_x, poisson_y, expected_mean, expected_variance, false, pline, "images/poisson.png")
 }
 
 func plotUniform(a, b float64) {
 	uniform_x := graph.LinearArray(a-3, b+3, inlen)
 	uniform_y := distributions.Uniform(a, b, uniform_x)
-
 	uline := graph.NewLS()
 	uline.Solid()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(uline)
-	g.Plot(uniform_x, uniform_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/uniform.png", true); err != nil {
-		panic(err)
-	}
 
 	expected_mean := (a + b) / 2
 	expected_variance := (b - a) * (b - a) / 12
 	fmt.Println("Uniform Distribution (a =", a, ", b =", b, ")")
-	Print(uniform_x, uniform_y, expected_mean, expected_variance, true)
+	draw(uniform_x, uniform_y, expected_mean, expected_variance, true, uline, "images/uniform.png")
 }
 
 func plotNormal(mu, sigma2 float64) {
 	normal_x := graph.LinearArray(mu-4*sigma2, mu+4*sigma2, inlen)
 	normal_y := distributions.Normal(mu, sigma2, normal_x)
-
 	nline := graph.NewLS()
 	nline.Solid()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(nline)
-	g.Plot(normal_x, normal_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/normal.png", true); err != nil {
-		panic(err)
-	}
 
 	expected_mean := mu
 	expected_variance := sigma2
 	fmt.Println("Normal Distribution (mean =", mu, ", variance =", sigma2, ")")
-	Print(normal_x, normal_y, expected_mean, expected_variance, true)
+	draw(normal_x, normal_y, expected_mean, expected_variance, true, nline, "images/normal.png")
 }
 
 func plotPareto(x0, alpha float64) {
 	pareto_x := graph.LinearArray(0, 20, inlen)
 	pareto_y := distributions.Pareto(x0, alpha, pareto_x)
-
 	parline := graph.NewLS()
 	parline.Solid()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(parline)
-	g.Plot(pareto_x, pareto_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/pareto.png", true); err != nil {
-		panic(err)
-	}
 
 	expected_mean := alpha * x0 / (alpha - 1)
 	expected_variance := alpha * x0 * x0 / ((alpha - 1) * (alpha - 1) * (alpha - 2))
 	fmt.Println("Pareto Distribution (x0 =", x0, ", α =", alpha, ")")
-	Print(pareto_x, pareto_y, expected_mean, expected_variance, true)
+	draw(pareto_x, pareto_y, expected_mean, expected_variance, true, parline, "images/pareto.png")
 }
 
 func plotStudents(nu float64) {
 	students_x := graph.LinearArray(-5, 5, inlen)
 	students_y := distributions.Students(nu, students_x)
-
 	stline := graph.NewLS()
 	stline.Solid()
-
-	g := graph.NewGraph()
-	g.SetLineStyle(stline)
-	g.Plot(students_x, students_y)
-
-	if err := g.Draw(); err != nil {
-		panic(err)
-	}
-	if err := g.SavePNG("images/students.png", true); err != nil {
-		panic(err)
-	}
 
 	expected_mean := 0.0
 	expected_variance := nu / (nu - 2)
 	fmt.Println("Student's t Distribution (ν =", nu, ")")
-	Print(students_x, students_y, expected_mean, expected_variance, true)
+	draw(students_x, students_y, expected_mean, expected_variance, true, stline, "images/students.png")
+}
+
+func draw(x, y []float64, expected_mean, expected_variance float64, continious bool, ls *graph.LineStyle, filename string) {
+	g := graph.NewGraph(800, 400)
+	g.Plot(x, y, ls)
+
+	if err := g.Draw(); err != nil {
+		panic(err)
+	}
+	if err := g.SavePNG(filename, true); err != nil {
+		panic(err)
+	}
+
+	Print(x, y, expected_mean, expected_variance, continious)
 }
 
 func main() {

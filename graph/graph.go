@@ -159,7 +159,7 @@ func (g *Graph) getScaleFactors(plotHeight, plotWidth float64) (float64, float64
 	return scaleX, scaleY
 }
 
-func isInsideAxis(origin, min, max float64) bool {
+func isAxisInside(origin, min, max float64) bool {
 	return origin >= min && origin <= max
 }
 

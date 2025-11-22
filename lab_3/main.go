@@ -2,6 +2,7 @@ package main
 
 import (
 	"decision-theory/binrels"
+	"fmt"
 )
 
 func main() {
@@ -22,9 +23,11 @@ func main() {
 	rels[3][0] = true
 	rels[3][1] = true
 
+	fmt.Println("\nInitial Relation:")
 	binrels.Print(rels)
 
 	mrRels := binrels.MutualReachability(rels)
 
+	fmt.Println("\nMutual Reachability Relation:")
 	binrels.Print(mrRels)
 }

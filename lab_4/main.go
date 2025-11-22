@@ -80,14 +80,12 @@ func main() {
 	freqf := graph.ToFloatSlice(freq)
 	valsf := graph.ToFloatSlice(vals)
 
-	g := graph.NewGraph()
+	g := graph.NewGraph(800, 400)
 
 	ls := graph.NewLS()
 	ls.Pillars(4)
 
-	g.SetLineStyle(ls)
-
-	g.Plot(valsf, freqf, TransformToPillarLabels(vals, freq))
+	g.Plot(valsf, freqf, ls, TransformToPillarLabels(vals, freq))
 
 	if err := g.Draw(); err != nil {
 		panic(err)

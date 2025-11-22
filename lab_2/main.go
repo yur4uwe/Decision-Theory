@@ -115,7 +115,7 @@ func main() {
 			binrels.PrintWithSource(rels, res)
 		}
 	}
-	if *runAll || *top_int > -1 && *top_int < len(rels) {
+	if *runAll || *top_int >= 0 && *top_int < len(rels) {
 		same_top_int := binrels.TopIntersection(is_same, *top_int)
 		not_colder_top_int := binrels.TopIntersection(not_colder, *top_int)
 
@@ -128,7 +128,7 @@ func main() {
 			fmt.Println(rels[v])
 		}
 	}
-	if *runAll || *bottom_int > -1 && *bottom_int < len(rels) {
+	if *runAll && *bottom_int >= 0 && *bottom_int < len(rels) {
 		same_bottom_int := binrels.BottomIntersection(is_same, *bottom_int)
 		not_colder_bottom_int := binrels.BottomIntersection(not_colder, *bottom_int)
 
@@ -141,7 +141,7 @@ func main() {
 			fmt.Println(rels[v])
 		}
 	}
-	if *runAll || *def_dom > -1 && *def_dom < 2 {
+	if *runAll && *def_dom > -1 && *def_dom < 2 {
 		var trgt = getMatrix(*def_dom)
 		if trgt != nil {
 			res := binrels.DefinitionDomain(trgt)
@@ -154,7 +154,7 @@ func main() {
 			}
 		}
 	}
-	if *runAll || *mean_dom > -1 && *mean_dom < 2 {
+	if *runAll && *mean_dom >= 0 && *mean_dom < 2 {
 		var trgt = getMatrix(*mean_dom)
 
 		if trgt != nil {
